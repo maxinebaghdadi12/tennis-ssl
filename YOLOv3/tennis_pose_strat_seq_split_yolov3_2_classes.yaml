@@ -1,0 +1,29 @@
+# YOLOv8 Dataset Configuration File
+# 
+# This file tells the YOLOv8 trainer where to find your data and
+# what your classes and keypoints are.
+#
+# To train, run:
+# yolo pose train data=tennis_pose.yaml model=yolov8n-pose.pt epochs=100 ...
+#
+# Make sure the paths are correct relative to where you run the command.
+# Or, use absolute paths.
+
+# Paths to train/val images
+# Update this path if 'yolo_tennis_dataset' is not in the same directory
+# as where you run your 'yolo' command.
+train: ./yolo_tennis_dataset_seq_strat_corrected_v3_only_bbox_2_classes/images/train
+val: ./yolo_tennis_dataset_seq_strat_corrected_v3_only_bbox_2_classes/images/val
+
+# Number of classes 
+nc: 2
+
+# Class names
+names:
+  0: backhand
+  1: forehand
+
+# --- Keypoints ---
+# Based on dataset_loader.py, we have 18 keypoints.
+# (x, y, visibility)
+kpt_shape: [18, 3]
