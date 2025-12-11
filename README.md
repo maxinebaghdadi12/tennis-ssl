@@ -6,6 +6,8 @@ This repository implements and compares multiple approaches for tennis stroke re
 
 ## Project Structure
 
+All of the code for the YOLO model is contained within its old folder. The code to build the ResNet and SSLs are outside the folder across the files below: 
+
 ### Project Structure
 
 ```
@@ -178,6 +180,7 @@ Below are the final-stroke classification accuracies:
 2. MoCo v2: 92%
 3. LeJEPA: 85%
 4. YOLO v3: 67%
+
 
 
 
