@@ -171,6 +171,17 @@ This script:
 
 ## YOLO Model 
 
+To create and preprocess the data, run: 
+
+```
+python YOLO/yolo_dataset_creator_strat_seq_split_2_classes.ipynb
+```
+
+To train and evaluate the model, run: 
+
+```
+python YOLO/YOLOv3_training_script_strat_seq_split_2_classes.ipynb
+```
 -------------------------------------------------------------------
 
 ## Final Results 
@@ -180,6 +191,7 @@ Below are the final-stroke classification accuracies:
 2. MoCo v2: 92%
 3. LeJEPA: 85%
 4. YOLO v3: 67%
+
 
 
 
