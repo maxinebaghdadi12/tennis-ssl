@@ -6,7 +6,7 @@ import torchvision.models as models
 
 import lejepa
 from datasets.lejepa_dataset import LeJEPADataset
-from transforms.lejepa_transforms import LeJEPAMultiCrop
+from scripts.lejepa_transforms import LeJEPAMultiCrop
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
     print("Using device:", device)
 
     transform = LeJEPAMultiCrop()
-    dataset = LeJEPADataset("data_ssl", transform=transform)
+    dataset = LeJEPADataset("datasets/data/data_ssl", transform=transform)
 
     loader = DataLoader(
         dataset,

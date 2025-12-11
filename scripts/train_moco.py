@@ -4,7 +4,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 
 from datasets.lejepa_dataset import LeJEPADataset
-from transforms.moco_transforms import TwoCropsTransform
+from scripts.moco_transforms import TwoCropsTransform
 from models.moco_model import MoCoV2
 
 
@@ -16,7 +16,7 @@ def main():
     print("Using device:", device)
 
     transform = TwoCropsTransform()
-    dataset = LeJEPADataset("data_ssl", transform=transform)
+    dataset = LeJEPADataset("datasets/data/data_ssl", transform=transform)
 
     loader = DataLoader(
         dataset,
