@@ -1,15 +1,6 @@
-# Tennis-SSL
-Self-Supervised Learning for Tennis Stroke Classification
+# Evaluating Self-Supervised Learning and YOLO Models as Foundations for Automated Match Commentary
 
-This repository implements and compares two self-supervised learning (SSL) approaches for tennis stroke representation learning. The goal is to learn features from unlabeled tennis images and then evaluate these features on a downstream forehand/backhand classification task.
-
-The project explores:
-- MoCo v2 (contrastive learning)
-- A JePA-style multi-crop SSL method using SIGReg (distributional matching)
-
-After SSL pretraining, we evaluate using:
-1. Linear probing (encoder frozen)
-2. Full fine-tuning (encoder + head trained)
+This repository implements and compares multiple approaches for tennis stroke recognition, including two self-supervised learning (SSL) models (MoCo v2 and JePA), a supervised ResNet baseline, and a YOLOv3 object-detection model. The broader goal is to build components toward automated tennis commentary, requiring player and racket detection, stroke recognition, temporal reasoning over video, natural language generation (LLMs). 
 
 -------------------------------------------------------------------
 
@@ -47,10 +38,12 @@ tennis-ssl/
 
 Create and activate the environment:
 
+```bash
 conda create -n tennis-ssl python=3.10
 conda activate tennis-ssl
-Install dependencies:
+```
 
+Install dependencies:
 ```pip install torch torchvision``` \
 ```pip install scikit-learn pillow tqdm``` \
 ```pip install lejepa```
@@ -59,27 +52,40 @@ Install dependencies:
 
 ## Preparing the Data
 
-Place your raw datasets inside:
+Your datasets should already exist on disk in two parts: 
+- Unlabeled SSL dataset
+- Labeled downstream dataset
 
-```datasets/data/
-    foreback_raw/
-    actions_raw/
+The dataset loaders in: 
+
+```
+datasets/downstream_dataset.py
+datasets/lejepa_dataset.py
 ```
 
-Then run:
+Expect the following structure after you run the script below: 
 
-```python scripts/prepare_data.py```
+```
+datasets/
+    data_ssl/images/           # Unlabeled images for SSL
+    data_downstream/           # forehand/ + backhand/ folders
+```
 
-This script generates:
+Run the preprocessig script to automatically populate these directories: 
 
-datasets/data_ssl/images/        (unlabeled SSL pool)
-datasets/data_downstream/        (labeled FH/BH classification set)
+```
+python scripts/prepare_data.py
+
+```
+
 
 -------------------------------------------------------------------
 
-## SSL Pretraining
+## SSL Models 
 
-### JePA-style SSL (SIGReg loss)
+### Model Pretraining
+
+#### JePA-style SSL
 
 python scripts/train_lejepa.py
 
@@ -89,7 +95,7 @@ Checkpoints saved to:
 
 checkpoints_ssl/
 
-### MoCo v2 Pretraining
+#### MoCo v2 Pretraining
 
 python scripts/train_moco.py
 
@@ -99,11 +105,9 @@ Checkpoints saved to:
 
 checkpoints_moco/
 
--------------------------------------------------------------------
+### Downstream Evaluation
 
-## Downstream Evaluation
-
-### Classification with MoCo encoder
+#### Classification with MoCo encoder
 
 python scripts/train_classifier_moco.py
 
@@ -111,7 +115,7 @@ Loads the MoCo checkpoint, strips the projection head, and trains:
 1. Linear probe
 2. Full fine-tuning (20 epochs)
 
-### Classification with JePA encoder
+#### Classification with JePA encoder
 
 python scripts/train_classifier_lejepa.py
 
@@ -119,21 +123,34 @@ Same evaluation protocol but using the JePA encoder.
 
 -------------------------------------------------------------------
 
-## Results Summary
+## ResNet Model  
 
-Below is the final performance achieved on the downstream FH/BH classification task.
+To benchmark against a standard supervised model, we train ResNet-18 only on the labeled forehand/backhand dataset.
 
-MoCo v2:
-- Best fine-tuned accuracy: 92%
+Run: 
 
-JePA-style SSL:
-- Best fine-tuned accuracy: 85%
+```
+python scripts/baseline_supervised_resnet.py
+```
+
+This script: 
+- loads the labeled dataset from datasets/data_downstream/
+- trains a scratch ResNet-18
+- Evaluates on the same validation split
 
 -------------------------------------------------------------------
 
-## Training Script Workflow Explained
+## YOLO Model 
 
-Each SSL method is used only for representation learning. The encoder is pretrained on unlabeled images using MoCo or JePA. After SSL pretraining, the projection head (MoCo) or identity head (JePA) is removed, and the encoder is used as a frozen feature extractor for linear probing. Then the entire encoder is fine-tuned end-to-end for improved downstream accuracy.
+-------------------------------------------------------------------
+
+## Final Results 
+
+Below are the final-stroke classification accuracies: 
+1. ResNet: 95%
+2. MoCo v2: 92%
+3. JePA: 85%
+4. YOLO v3: 67%
 
 
 
