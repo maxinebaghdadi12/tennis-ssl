@@ -77,7 +77,6 @@ Run the preprocessig script to automatically populate these directories:
 
 ```
 python scripts/prepare_data.py
-
 ```
 
 
@@ -165,6 +164,7 @@ Below are the final-stroke classification accuracies:
 2. MoCo v2: 92%
 3. JePA: 85%
 4. YOLO v3: 67%
+
 
 
 
