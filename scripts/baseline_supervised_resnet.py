@@ -14,7 +14,6 @@ import numpy as np
 
 from datasets.downstream_dataset import TennisDownstreamDataset
 
-
 def evaluate(model, loader, criterion, device):
     model.eval()
     

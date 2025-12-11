@@ -12,10 +12,6 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 from datasets.downstream_dataset import TennisDownstreamDataset
 
-
-# -----------------------------
-# Helper: device selection
-# -----------------------------
 def get_device():
     if torch.backends.mps.is_available():
         return "mps"
@@ -25,10 +21,6 @@ def get_device():
         return "cpu"
 
 
-# -----------------------------
-# Helper: build encoder backbone
-# (ResNet-18 with fc removed)
-# -----------------------------
 def build_resnet18_encoder(device):
     encoder = models.resnet18(weights=None)
     in_dim = encoder.fc.in_features
@@ -36,10 +28,6 @@ def build_resnet18_encoder(device):
     encoder.to(device)
     return encoder, in_dim
 
-
-# -----------------------------
-# Helper: load fine-tuned model
-# -----------------------------
 def load_model(checkpoint_path, device):
     """
     Loads encoder + linear head from a fine-tuned checkpoint.
@@ -49,7 +37,7 @@ def load_model(checkpoint_path, device):
     """
     # build encoder backbone
     encoder, in_dim = build_resnet18_encoder(device)
-    head = nn.Linear(in_dim, 2)   # 2 classes: forehand/backhand
+    head = nn.Linear(in_dim, 2)   
     head.to(device)
 
     ckpt = torch.load(checkpoint_path, map_location=device)
@@ -61,10 +49,6 @@ def load_model(checkpoint_path, device):
 
     return encoder, head
 
-
-# -----------------------------
-# Helper: build val loader
-# -----------------------------
 def get_val_loader(batch_size=32):
     transform = T.Compose([
         T.Resize((224, 224)),
@@ -90,14 +74,10 @@ def get_val_loader(batch_size=32):
 
     return val_ds, val_loader
 
-
-# -----------------------------
-# Evaluation loop
-# -----------------------------
 def run_inference(model_name, encoder, head, val_ds, val_loader, device):
     y_true = []
     y_pred = []
-    image_indices = []  # to retrieve images later for qualitative plots
+    image_indices = []  
 
     with torch.no_grad():
         for batch_idx, (imgs, labels) in enumerate(val_loader):
@@ -125,9 +105,6 @@ def run_inference(model_name, encoder, head, val_ds, val_loader, device):
     return y_true, y_pred, image_indices
 
 
-# -----------------------------
-# Confusion matrix plotting
-# -----------------------------
 def plot_confusion_matrix(y_true, y_pred, model_name, save_path=None):
     cm = confusion_matrix(y_true, y_pred)
     disp = ConfusionMatrixDisplay(
@@ -147,9 +124,6 @@ def plot_confusion_matrix(y_true, y_pred, model_name, save_path=None):
         plt.show()
 
 
-# -----------------------------
-# Qualitative grids
-# -----------------------------
 def denormalize(tensor):
     """
     Undo ImageNet normalization for visualization.
@@ -185,7 +159,7 @@ def plot_examples(val_ds, image_indices, y_true, y_pred,
 
     for ax, idx in zip(axes, indices):
         img, label = val_ds[idx]
-        img_vis = denormalize(img).clamp(0, 1)  # back to [0,1]
+        img_vis = denormalize(img).clamp(0, 1)  
 
         ax.imshow(np.transpose(img_vis.numpy(), (1, 2, 0)))
         ax.axis("off")
@@ -196,7 +170,6 @@ def plot_examples(val_ds, image_indices, y_true, y_pred,
         color = "green" if correct else "red"
         ax.set_title(f"T: {true_label}\nP: {pred_label}", color=color)
 
-    # hide any leftover axes
     for ax in axes[len(indices):]:
         ax.axis("off")
 
@@ -210,18 +183,12 @@ def plot_examples(val_ds, image_indices, y_true, y_pred,
     else:
         plt.show()
 
-
-# -----------------------------
-# Main
-# -----------------------------
 def main():
     device = get_device()
     print("Using device:", device)
 
-    # 1) Load val dataset + loader
     val_ds, val_loader = get_val_loader(batch_size=32)
 
-    # 2) Evaluate MoCo fine-tuned model
     moco_ckpt = "checkpoints/checkpoints_moco/best_ft_model.pth"
     if os.path.exists(moco_ckpt):
         print("\n=== Evaluating MoCo fine-tuned model ===")
@@ -261,7 +228,6 @@ def main():
     else:
         print("MoCo checkpoint not found:", moco_ckpt)
 
-    # 3) Evaluate JePA fine-tuned model
     jepa_ckpt = "checkpoints/checkpoints_ssl/best_ft_model_jepa.pth"
     if os.path.exists(jepa_ckpt):
         print("\n=== Evaluating JePA fine-tuned model ===")
