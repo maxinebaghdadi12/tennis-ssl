@@ -9,10 +9,6 @@ This repository implements and compares multiple approaches for tennis stroke re
 ### Project Structure
 
 ```
-## Project Structure
-
-```text
-
 ├── datasets/
 │   ├── downstream_dataset.py        # Labeled FH/BH dataset loader
 │   └── lejepa_dataset.py            # Unlabeled dataset loader + JePA augmentations
@@ -179,6 +175,7 @@ Below are the final-stroke classification accuracies:
 2. MoCo v2: 92%
 3. JePA: 85%
 4. YOLO v3: 67%
+
 
 
 
