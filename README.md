@@ -9,26 +9,41 @@ This repository implements and compares multiple approaches for tennis stroke re
 ### Project Structure
 
 ```
-tennis-ssl/
-│
+## Project Structure
+
+```text
+
 ├── datasets/
-│   ├── downstream_dataset.py        # Labeled FH/BH training data
-│   └── lejepa_dataset.py            # Unlabeled dataset for SSL
+│   ├── downstream_dataset.py        # Labeled FH/BH dataset loader
+│   └── lejepa_dataset.py            # Unlabeled dataset loader + JePA augmentations
+│
+├── figures/                         # Visualizations and qualitative examples
+│   ├── jepa_confusion_matrix.png
+│   ├── jepa_correct_examples.png
+│   ├── jepa_incorrect_examples.png
+│   ├── moco_confusion_matrix.png
+│   ├── moco_correct_examples.png
+│   ├── moco_incorrect_examples.png
+│   └── supervised_confusion_matrix.png
 │
 ├── models/
-│   └── moco_model.py                # MoCo v2 encoder + projection head
-│
-├── transforms/
-│   ├── lejepa_transforms.py         # Multi-crop augmentations for JePA
-│   └── moco_transforms.py           # Two-crop transforms for MoCo
+│   └── moco_model.py                # MoCo v2 encoder implementation
 │
 ├── scripts/
-│   ├── prepare_data.py              # Builds data_ssl/ and data_downstream/
-│   ├── train_lejepa.py              # JePA SSL pretraining
-│   ├── train_moco.py                # MoCo SSL pretraining
-│   ├── train_classifier_moco.py     # Downstream classifier (MoCo)
-│   └── train_classifier_lejepa.py   # Downstream classifier (JePA)
+│   ├── baseline_supervised_resnet.py   # ResNet baseline training
+│   ├── eval_results.py                 # Metrics + confusion matrices
+│   ├── lejepa_transforms.py            # JePA augmentation pipeline
+│   ├── moco_transforms.py              # MoCo augmentation pipeline
+│   ├── prepare_data.py                 # Train/val split generation
+│   ├── train_classifier_lejepa.py      # Linear probe & finetuning for JePA
+│   ├── train_classifier_moco.py        # Linear probe & finetuning for MoCo
+│   ├── train_lejepa.py                 # JePA pretraining loop
+│   └── train_moco.py                   # MoCo v2 pretraining loop
 │
+├── YOLOv3/                             # YOLO training code & configs
+│   └── ...
+│
+├── .gitignore
 └── README.md
 ```
 
@@ -164,6 +179,7 @@ Below are the final-stroke classification accuracies:
 2. MoCo v2: 92%
 3. JePA: 85%
 4. YOLO v3: 67%
+
 
 
 
