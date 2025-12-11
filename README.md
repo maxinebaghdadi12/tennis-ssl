@@ -10,10 +10,10 @@ This repository implements and compares multiple approaches for tennis stroke re
 
 ```
 ├── datasets/
-│   ├── downstream_dataset.py        # Labeled FH/BH dataset loader
-│   └── lejepa_dataset.py            # Unlabeled dataset loader + JePA augmentations
+│   ├── downstream_dataset.py        
+│   └── lejepa_dataset.py            
 │
-├── figures/                         # Visualizations and qualitative examples
+├── figures/                         
 │   ├── jepa_confusion_matrix.png
 │   ├── jepa_correct_examples.png
 │   ├── jepa_incorrect_examples.png
@@ -23,21 +23,24 @@ This repository implements and compares multiple approaches for tennis stroke re
 │   └── supervised_confusion_matrix.png
 │
 ├── models/
-│   └── moco_model.py                # MoCo v2 encoder implementation
+│   └── moco_model.py                
 │
 ├── scripts/
-│   ├── baseline_supervised_resnet.py   # ResNet baseline training
-│   ├── eval_results.py                 # Metrics + confusion matrices
-│   ├── lejepa_transforms.py            # JePA augmentation pipeline
-│   ├── moco_transforms.py              # MoCo augmentation pipeline
-│   ├── prepare_data.py                 # Train/val split generation
-│   ├── train_classifier_lejepa.py      # Linear probe & finetuning for JePA
-│   ├── train_classifier_moco.py        # Linear probe & finetuning for MoCo
-│   ├── train_lejepa.py                 # JePA pretraining loop
-│   └── train_moco.py                   # MoCo v2 pretraining loop
+│   ├── baseline_supervised_resnet.py  
+│   ├── eval_results.py                
+│   ├── lejepa_transforms.py           
+│   ├── moco_transforms.py             
+│   ├── prepare_data.py                
+│   ├── train_classifier_lejepa.py     
+│   ├── train_classifier_moco.py       
+│   ├── train_lejepa.py                
+│   └── train_moco.py                  
 │
-├── YOLOv3/                             # YOLO training code & configs
-│   └── ...
+├── YOLOv3/                            
+│   └── yolov3_tiny_run_only_bbox_20_epoch_2_classes2
+│   └── YOLOv3_training_script_strat_seq_split_2_classes.ipynb
+│   └── tennis_pose_strat_seq_split_yolov3_2_classes.yaml
+│   └── yolo_dataset_creator_strat_seq_split_2_classes.ipynb
 │
 ├── .gitignore
 └── README.md
@@ -175,6 +178,7 @@ Below are the final-stroke classification accuracies:
 2. MoCo v2: 92%
 3. JePA: 85%
 4. YOLO v3: 67%
+
 
 
 
