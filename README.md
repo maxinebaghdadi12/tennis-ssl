@@ -38,16 +38,18 @@ tennis-ssl/
 
 Create and activate the environment:
 
-```bash
+```
 conda create -n tennis-ssl python=3.10
 conda activate tennis-ssl
 ```
 
 Install dependencies:
-```pip install torch torchvision``` \
-```pip install scikit-learn pillow tqdm``` \
-```pip install lejepa```
 
+```
+pip install torch torchvision
+pip install scikit-learn pillow tqdm
+pip install lejepa
+```
 -------------------------------------------------------------------
 
 ## Preparing the Data
@@ -87,29 +89,39 @@ python scripts/prepare_data.py
 
 #### JePA-style SSL
 
+```
 python scripts/train_lejepa.py
+```
 
 This trains a ResNet-18 encoder using multi-crop views and the SIGReg distributional matching loss.
 
 Checkpoints saved to:
 
+```
 checkpoints_ssl/
+```
 
 #### MoCo v2 Pretraining
 
+```
 python scripts/train_moco.py
+```
 
 This trains a ResNet-18 encoder with a 2-layer projection head and a momentum encoder.
 
 Checkpoints saved to:
 
+```
 checkpoints_moco/
+```
 
 ### Downstream Evaluation
 
 #### Classification with MoCo encoder
 
+```
 python scripts/train_classifier_moco.py
+```
 
 Loads the MoCo checkpoint, strips the projection head, and trains:
 1. Linear probe
@@ -117,9 +129,11 @@ Loads the MoCo checkpoint, strips the projection head, and trains:
 
 #### Classification with JePA encoder
 
+```
 python scripts/train_classifier_lejepa.py
+```
 
-Same evaluation protocol but using the JePA encoder.
+Same evaluation protocol but using the MoCo encoder.
 
 -------------------------------------------------------------------
 
@@ -151,6 +165,7 @@ Below are the final-stroke classification accuracies:
 2. MoCo v2: 92%
 3. JePA: 85%
 4. YOLO v3: 67%
+
 
 
 
