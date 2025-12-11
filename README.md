@@ -1,6 +1,6 @@
 # Evaluating Self-Supervised Learning and YOLO Models as Foundations for Automated Match Commentary
 
-This repository implements and compares multiple approaches for tennis stroke recognition, including two self-supervised learning (SSL) models (MoCo v2 and JePA), a supervised ResNet baseline, and a YOLOv3 object-detection model. The broader goal is to build components toward automated tennis commentary, requiring player and racket detection, stroke recognition, temporal reasoning over video, natural language generation (LLMs). 
+This repository implements and compares multiple approaches for tennis stroke recognition, including two self-supervised learning (SSL) models (MoCo v2 and LeJEPA), a supervised ResNet baseline, and a YOLOv3 object-detection model. The broader goal is to build components toward automated tennis commentary, requiring player and racket detection, stroke recognition, temporal reasoning over video, natural language generation (LLMs). 
 
 -------------------------------------------------------------------
 
@@ -100,7 +100,7 @@ python scripts/prepare_data.py
 
 ### Model Pretraining
 
-#### JePA-style SSL
+#### LeJEPA-style SSL
 
 ```
 python scripts/train_lejepa.py
@@ -140,7 +140,7 @@ Loads the MoCo checkpoint, strips the projection head, and trains:
 1. Linear probe
 2. Full fine-tuning (20 epochs)
 
-#### Classification with JePA encoder
+#### Classification with LeJEPA encoder
 
 ```
 python scripts/train_classifier_lejepa.py
@@ -176,8 +176,9 @@ This script:
 Below are the final-stroke classification accuracies: 
 1. ResNet: 95%
 2. MoCo v2: 92%
-3. JePA: 85%
+3. LeJEPA: 85%
 4. YOLO v3: 67%
+
 
 
 
